@@ -4,8 +4,8 @@ $chatid = $_POST['chatid_telegram'];
 $pesan = $_POST['pesan_telegram'];
 
 // Kirim pesan ke bot Telegram (gunakan token bot Anda)
-$botToken = 'your_bot_token'; // Gantilah 'your_bot_token' dengan token bot Anda
-$telegramURL = "https://api.telegram.org/bot$6946290282:AAHbPsb9hD-DbepVOIkge81AvWjY90YbbU0/sendMessage";
+$botToken = '6946290282:AAHbPsb9hD-DbepVOIkge81AvWjY90YbbU0'; // Gantilah 'your_bot_token' dengan token bot Anda
+$telegramURL = "https://api.telegram.org/bot$botToken/sendMessage";
 $data = array('chat_id' => $6824078885, 'text' => $pesan);
 
 $options = array(
